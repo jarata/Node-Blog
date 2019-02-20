@@ -14,11 +14,13 @@ router.get('/', async (req, res) => {
         })
     }
 });
+
 // function getById(id) {
 //   return db('posts')
 //     .where({ id })
 //     .first();
 // }
+
 router.get('/:id', async (req, res) => {
     try {
         const post = await Posts.getById(req.params.id);
@@ -37,14 +39,6 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-module.exports = router;
-
-//unction get() {
-//   return db('posts');
-// }
-//
-
-//
 // function insert(post) {
 //   return db('posts')
 //     .insert(post)
@@ -52,6 +46,55 @@ module.exports = router;
 //       return getById(ids[0]);
 //     });
 // }
+
+// router.post('/', async (req, res) => {
+//     const {id} = req.params;
+//     const post = req.body;
+//     try {
+//         const post = await Posts.insert(req.body);
+//         if (post.text) {
+//             res.status(201).json(post);
+//         } else {
+//             res.status(400).json({
+//                 errorMessage: "Please provide text for the post."
+//             })
+//         }
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).json({
+//             message: "Error while saving the post to the database"
+//         })
+//     }
+// });
+
+// function remove(id) {
+//   return db('posts')
+//     .where('id', id)
+//     .del();
+// }
+
+router.delete('/:id', async (req, res) => {
+    try {
+        const count = await Posts.remove(req.params.id);
+        if (count > 0) {
+            res.status(200).json({
+                message: 'Post has been deleted'
+            })
+        } else {
+            res.status(404).json({
+                message: "The post with the specified ID does not exist."
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            error: "The post could not be removed"
+        })
+    }
+});
+module.exports = router;
+
+
 //
 // function update(id, changes) {
 //   return db('posts')
@@ -59,8 +102,3 @@ module.exports = router;
 //     .update(changes);
 // }
 //
-// function remove(id) {
-//   return db('posts')
-//     .where('id', id)
-//     .del();
-// }
