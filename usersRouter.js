@@ -63,6 +63,19 @@ router.get('/:id', async (req, res) => {
 //         });
 // }
 
+router.post('/', async (req, res) => {
+    const user = await Users.insert(req.body)
+    try {
+        res.status(201).json({
+            message: 'User created', user
+        })
+    } catch (error) {
+        res.status(500).json({
+            error: 'Error creating user'
+        })
+    }
+});
+
 // function update(id, changes) {
 //     return db('users')
 //         .where({ id })
@@ -74,5 +87,25 @@ router.get('/:id', async (req, res) => {
 //         .where('id', id)
 //         .del();
 // }
+
+router.delete('/:id', async (req, res) => {
+    try {
+        const count = await Users.remove(req.params.id, req.params.name);
+        if (count > 0) {
+            res.status(200).json({
+                message: 'User has been deleted'
+            })
+        } else {
+            res.status(404).json({
+                message: "The user with the specified ID does not exist."
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            error: "The user could not be removed"
+        })
+    }
+});
 
 module.exports = router;
