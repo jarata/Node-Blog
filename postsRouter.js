@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
-        const posts = await Posts.get(req.query);
+        const posts = await Posts.get();
         res.status(200).json(posts)
     } catch (error) {
         console.log(error);
@@ -66,6 +66,54 @@ router.get('/:id', async (req, res) => {
 //         })
 //     }
 // });
+router.post('/', async (req, res) => {
+    const post = await Posts.insert(req.body);
+    const {id} = await Posts.get(req.params);
+    try {
+        if(id) {
+            res.status(200).json(post)
+        } else {
+            res.status(400).json({
+                errorMessage: "Please provide text for the post."
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            error: 'Error creating post'
+        })
+
+    }
+});
+
+// function update(id, changes) {
+//   return db('posts')
+//     .where({ id })
+//     .update(changes);
+// }
+
+// router.put('/:id', async (req, res) => {
+//     if (!req.body.text) {
+//         res.status(400).json({
+//             errorMessage: "Please provide text for the post."
+//         })
+//     }
+//     try {
+//         const post = await Posts.update(req.params.id, req.body);
+//         if (post) {
+//             res.status(200).json(post);
+//         } else {
+//             res.status(404).json({
+//                 message: "The post with the specified ID does not exist."
+//             })
+//         }
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).json({
+//             error: "The post information could not be modified."
+//         })
+//     }
+// });
 
 // function remove(id) {
 //   return db('posts')
@@ -93,12 +141,3 @@ router.delete('/:id', async (req, res) => {
     }
 });
 module.exports = router;
-
-
-//
-// function update(id, changes) {
-//   return db('posts')
-//     .where({ id })
-//     .update(changes);
-// }
-//
