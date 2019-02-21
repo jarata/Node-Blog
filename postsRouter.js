@@ -33,14 +33,6 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// function insert(post) {
-//   return db('posts')
-//     .insert(post)
-//     .then(ids => {
-//       return getById(ids[0]);
-//     });
-// }
-
 router.post('/', async (req, res) => {
     try {
         const post = await Posts.insert(req.body);
@@ -82,12 +74,6 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-// function remove(id) {
-//   return db('posts')
-//     .where('id', id)
-//     .del();
-// }
-
 router.delete('/:id', async (req, res) => {
     try {
         const count = await Posts.remove(req.params.id);
@@ -107,4 +93,5 @@ router.delete('/:id', async (req, res) => {
         })
     }
 });
+
 module.exports = router;
