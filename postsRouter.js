@@ -15,12 +15,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-// function getById(id) {
-//   return db('posts')
-//     .where({ id })
-//     .first();
-// }
-
 router.get('/:id', async (req, res) => {
     try {
         const post = await Posts.getById(req.params.id);
@@ -49,7 +43,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        const post = await Posts.insert(req.body, req.params.id );
+        const post = await Posts.insert(req.body);
         if (post.text) {
             res.status(201).json(post);
         } else {
