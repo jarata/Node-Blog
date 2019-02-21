@@ -1,5 +1,5 @@
 /// heroku deployment
-require('dotenv').config:
+require('dotenv').config();
 // code away!
 const server = require('./server.js');
 /// heroku deployment

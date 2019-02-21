@@ -15,7 +15,8 @@ server.use('/api/posts', postsRouter);
 server.use('/api/users', usersRouter);
 
 server.get('/', async  (req, res) => {
-    res.send(`<h2>Server is online!</h2>`)
+    const motd = process.env.MOTD || 'Hello from Heroku';
+    res.send(`<h2>${motd}, this server is online!</h2>`)
 });
 
 module.exports = server;
