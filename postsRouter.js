@@ -34,10 +34,15 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+    if (!req.body.text, !req.body.user_id) {
+        res.status(400).json({
+            error: 'Error need text and user ID'
+        })
+    }
     try {
         const post = await Posts.insert(req.body);
         if (post.text) {
-            res.status(201).json(post);
+            return res.status(201).json(post);
         } else {
             res.status(400).json({
                 errorMessage: "Please provide text for the post."
