@@ -3,11 +3,6 @@ const Users = require('./data/helpers/userDb');
 
 const router = express.Router();
 
-
-//function get() {
-//     return db('users');
-// }
-
 router.get('/', async (req, res) => {
     try {
         const users = await Users.get();
@@ -19,12 +14,6 @@ router.get('/', async (req, res) => {
         })
     }
 });
-
-// function getById(id) {
-//     return db('users')
-//         .where({ id })
-//         .first();
-// }
 
 router.get('/:id', async (req, res) => {
     try {
@@ -44,10 +33,6 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// router.get('/:id', async (req, res) => {
-//
-// })
-
 // function getUserPosts(userId) {
 //     return db('posts as p')
 //         .join('users as u', 'u.id', 'p.user_id')
@@ -55,16 +40,8 @@ router.get('/:id', async (req, res) => {
 //         .where('p.user_id', userId);
 // }
 
-// function insert(user) {
-//     return db('users')
-//         .insert(user)
-//         .then(ids => {
-//             return getById(ids[0]);
-//         });
-// }
-
 router.post('/', async (req, res) => {
-    const user = await Users.insert(req.body)
+    const user = await Users.insert(req.body);
     try {
         res.status(201).json({
             message: 'User created', user
@@ -80,12 +57,6 @@ router.post('/', async (req, res) => {
 //     return db('users')
 //         .where({ id })
 //         .update(changes);
-// }
-
-// function remove(id) {
-//     return db('users')
-//         .where('id', id)
-//         .del();
 // }
 
 router.delete('/:id', async (req, res) => {
