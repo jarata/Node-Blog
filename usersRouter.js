@@ -50,7 +50,24 @@ router.get('/:id', async (req, res) => {
 //         .where('p.user_id', userId);  = .get
 // }
 
-router.get('/:id')
+router.get('/:id/posts', async (req, res) => {
+    const {id} = req.params;
+    const userPost = await Users.getUserPosts(id);
+    try {
+        if (userPost) {
+            res.status(200).json(userPost);
+        } else {
+            res.status(404).json({
+                error: "The user's posts with the specified ID does not exist"
+            })
+        }
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            error: "The user's posts information could not be retrieved"
+        })
+    }
+});
 
 // function insert(user) {
 //     return db('users')
