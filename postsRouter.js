@@ -57,14 +57,12 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-    if (!req.body.text) {
-        res.status(400).json({
-            errorMessage: "Please provide text for the post."
-        })
-    }
+    const {id} = req.params;
+    const postText = req.body;
     try {
-        const post = await Posts.update(req.params.id, req.body);
+        const post = await Posts.get(id);
         if (post) {
+            await Posts.update(id, postText);
             res.status(200).json(post);
         } else {
             res.status(404).json({
